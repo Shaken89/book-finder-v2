@@ -1,0 +1,30 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, map, catchError, of } from 'rxjs';
+import { Book, BooksResponse } from '../models/book.model';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ItemsService {
+  private apiUrl = 'https://www.googleapis.com/books/v1/volumes';
+
+  constructor(private http: HttpClient) {}
+
+  getItems(query?: string, page: number = 0): Observable<Book[]> {
+    const searchQuery = query || 'fiction';
+    const startIndex = page * 10;
+    const url = `${this.apiUrl}?q=${searchQuery}&startIndex=${startIndex}&maxResults=10`;
+    
+    return this.http.get<BooksResponse>(url).pipe(
+      map(response => response.items || []),
+      catchError(() => of([]))
+    );
+  }
+
+  getItemById(id: string): Observable<Book | null> {
+    return this.http.get<Book>(`${this.apiUrl}/${id}`).pipe(
+      catchError(() => of(null))
+    );
+  }
+}

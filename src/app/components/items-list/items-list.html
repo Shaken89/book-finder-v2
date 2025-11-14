@@ -1,0 +1,31 @@
+<div class="list-container">
+  <div class="search-section">
+    <h1 class="page-title">Discover Books</h1>
+    <div class="search-bar">
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
+        (keyup.enter)="onSearch()"
+        placeholder="Search for books..."
+        class="search-input">
+      <button (click)="onSearch()" class="search-button">Search</button>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="isLoading">
+    <div class="spinner"></div>
+    <p>Loading books...</p>
+  </div>
+
+  <div class="error" *ngIf="errorMessage && !isLoading">
+    <p>{{ errorMessage }}</p>
+  </div>
+
+  <div class="books-grid" *ngIf="!isLoading && !errorMessage">
+    <app-item-card *ngFor="let book of books" [book]="book"></app-item-card>
+  </div>
+
+  <div class="no-results" *ngIf="!isLoading && books.length === 0 && !errorMessage">
+    <p>No books found. Try a different search term.</p>
+  </div>
+</div>

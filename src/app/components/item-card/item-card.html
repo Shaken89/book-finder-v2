@@ -1,0 +1,11 @@
+<div class="card">
+  <div class="card-image">
+    <img [src]="getImageUrl()" [alt]="book.volumeInfo.title">
+  </div>
+  <div class="card-content">
+    <h3 class="card-title">{{ book.volumeInfo.title }}</h3>
+    <p class="card-author">{{ getAuthors() }}</p>
+    <p class="card-description">{{ getDescription() }}</p>
+    <a [routerLink]="['/items', book.id]" class="card-link">View Details</a>
+  </div>
+</div>

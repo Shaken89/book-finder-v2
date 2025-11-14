@@ -37,21 +37,13 @@
 }
 
 .features-list {
-  list-style: none;
-  padding: 0;
+  list-style: disc;
+  padding: 2rem;
 }
 
 .features-list li {
   padding: 0.5rem 0;
-  padding-left: 1.5rem;
+  padding-left: 0;
   position: relative;
   color: #555;
-}
-
-.features-list li::before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  color: #3498db;
-  font-weight: bold;
 }

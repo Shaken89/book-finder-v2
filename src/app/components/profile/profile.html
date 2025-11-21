@@ -1,0 +1,36 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <h1 class="profile-title">Profile</h1>
+    
+    <div class="profile-info" *ngIf="user">
+      <div class="info-row">
+        <span class="info-label">Email:</span>
+        <span class="info-value">{{ user.email }}</span>
+      </div>
+      
+      <div class="info-row">
+        <span class="info-label">User ID:</span>
+        <span class="info-value">{{ user.uid }}</span>
+      </div>
+      
+      <div class="info-row">
+        <span class="info-label">Email Verified:</span>
+        <span class="info-value">{{ user.emailVerified ? 'Yes' : 'No' }}</span>
+      </div>
+      
+      <div class="info-row">
+        <span class="info-label">Account Created:</span>
+        <span class="info-value">{{ user.metadata.creationTime }}</span>
+      </div>
+      
+      <div class="info-row">
+        <span class="info-label">Last Sign In:</span>
+        <span class="info-value">{{ user.metadata.lastSignInTime }}</span>
+      </div>
+    </div>
+
+    <button class="logout-button" (click)="onLogout()">
+      Logout
+    </button>
+  </div>
+</div>

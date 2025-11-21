@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
+import { Location } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ItemsService } from '../../services/items';
 import { Book } from '../../models/book.model';
@@ -7,7 +7,7 @@ import { Book } from '../../models/book.model';
 @Component({
   selector: 'app-item-details',
   standalone: true,
-  imports: [CommonModule],
+  imports: [],
   templateUrl: './item-details.html',
   styleUrl: './item-details.css'
 })

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ItemsService } from '../../services/items';
@@ -9,7 +9,7 @@ import { Book } from '../../models/book.model';
 @Component({
   selector: 'app-items-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, ItemCard],
+  imports: [FormsModule, ItemCard],
   templateUrl: './items-list.html',
   styleUrl: './items-list.css'
 })

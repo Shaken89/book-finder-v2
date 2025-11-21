@@ -1,61 +1,71 @@
 <div class="details-container">
   <button (click)="goBack()" class="back-button">← Back to Books</button>
 
-  <div class="loading" *ngIf="isLoading">
-    <div class="spinner"></div>
-    <p>Loading book details...</p>
-  </div>
+  @if (isLoading) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading book details...</p>
+    </div>
+  }
 
-  <div class="error" *ngIf="errorMessage && !isLoading">
-    <h2>Error</h2>
-    <p>{{ errorMessage }}</p>
-  </div>
+  @if (errorMessage && !isLoading) {
+    <div class="error">
+      <h2>Error</h2>
+      <p>{{ errorMessage }}</p>
+    </div>
+  }
 
-  <div class="not-found" *ngIf="notFound && !isLoading">
-    <h2>Book Not Found</h2>
-    <p>The book you are looking for does not exist.</p>
-  </div>
+  @if (notFound && !isLoading) {
+    <div class="not-found">
+      <h2>Book Not Found</h2>
+      <p>The book you are looking for does not exist.</p>
+    </div>
+  }
 
-  <div class="book-details" *ngIf="book && !isLoading">
-    <div class="details-header">
-      <div class="book-cover">
-        <img [src]="getImageUrl()" [alt]="book.volumeInfo.title">
+  @if (book && !isLoading) {
+    <div class="book-details">
+      <div class="details-header">
+        <div class="book-cover">
+          <img [src]="getImageUrl()" [alt]="book.volumeInfo.title">
+        </div>
+        <div class="book-info">
+          <h1 class="book-title">{{ book.volumeInfo.title }}</h1>
+          <div class="info-item">
+            <span class="info-label">Author(s):</span>
+            <span class="info-value">{{ getAuthors() }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Publisher:</span>
+            <span class="info-value">{{ book.volumeInfo.publisher || 'Not specified' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Published Date:</span>
+            <span class="info-value">{{ book.volumeInfo.publishedDate || 'Not specified' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Categories:</span>
+            <span class="info-value">{{ getCategories() }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Page Count:</span>
+            <span class="info-value">{{ book.volumeInfo.pageCount || 'Not specified' }}</span>
+          </div>
+          <div class="info-item">
+            <span class="info-label">Language:</span>
+            <span class="info-value">{{ book.volumeInfo.language || 'Not specified' }}</span>
+          </div>
+          @if (book.volumeInfo.averageRating) {
+            <div class="info-item">
+              <span class="info-label">Rating:</span>
+              <span class="info-value">{{ book.volumeInfo.averageRating }} / 5</span>
+            </div>
+          }
+        </div>
       </div>
-      <div class="book-info">
-        <h1 class="book-title">{{ book.volumeInfo.title }}</h1>
-        <div class="info-item">
-          <span class="info-label">Author(s):</span>
-          <span class="info-value">{{ getAuthors() }}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Publisher:</span>
-          <span class="info-value">{{ book.volumeInfo.publisher || 'Not specified' }}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Published Date:</span>
-          <span class="info-value">{{ book.volumeInfo.publishedDate || 'Not specified' }}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Categories:</span>
-          <span class="info-value">{{ getCategories() }}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Page Count:</span>
-          <span class="info-value">{{ book.volumeInfo.pageCount || 'Not specified' }}</span>
-        </div>
-        <div class="info-item">
-          <span class="info-label">Language:</span>
-          <span class="info-value">{{ book.volumeInfo.language || 'Not specified' }}</span>
-        </div>
-        <div class="info-item" *ngIf="book.volumeInfo.averageRating">
-          <span class="info-label">Rating:</span>
-          <span class="info-value">{{ book.volumeInfo.averageRating }} / 5</span>
-        </div>
+      <div class="book-description">
+        <h2>Description</h2>
+        <p [innerHTML]="book.volumeInfo.description || 'No description available'"></p>
       </div>
     </div>
-    <div class="book-description">
-      <h2>Description</h2>
-      <p [innerHTML]="book.volumeInfo.description || 'No description available'"></p>
-    </div>
-  </div>
+  }
 </div>

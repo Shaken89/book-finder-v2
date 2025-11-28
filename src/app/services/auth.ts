@@ -6,7 +6,7 @@ import { Observable, from } from 'rxjs';
   providedIn: 'root'
 })
 export class AuthService {
-  private auth: Auth = inject(Auth); // ✅ Правильный способ
+  private auth: Auth = inject(Auth);
   currentUser$: Observable<User | null> = user(this.auth);
 
   signup(email: string, password: string): Observable<any> {

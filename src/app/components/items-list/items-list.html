@@ -2,40 +2,30 @@
   <div class="search-section">
     <h1 class="page-title">Discover Books</h1>
     <div class="search-bar">
-      <input
-        type="text"
-        [(ngModel)]="searchQuery"
+      <input 
+        type="text" 
+        [(ngModel)]="searchQuery" 
         (keyup.enter)="onSearch()"
         placeholder="Search for books..."
         class="search-input">
-        <button (click)="onSearch()" class="search-button">Search</button>
-      </div>
+      <button (click)="onSearch()" class="search-button">Search</button>
     </div>
-
-    @if (isLoading) {
-      <div class="loading">
-        <div class="spinner"></div>
-        <p>Loading books...</p>
-      </div>
-    }
-
-    @if (errorMessage && !isLoading) {
-      <div class="error">
-        <p>{{ errorMessage }}</p>
-      </div>
-    }
-
-    @if (!isLoading && !errorMessage) {
-      <div class="books-grid">
-        @for (book of books; track book) {
-          <app-item-card [book]="book"></app-item-card>
-        }
-      </div>
-    }
-
-    @if (!isLoading && books.length === 0 && !errorMessage) {
-      <div class="no-results">
-        <p>No books found. Try a different search term.</p>
-      </div>
-    }
   </div>
+
+  <div class="loading" *ngIf="isLoading$ | async">
+    <div class="spinner"></div>
+    <p>Loading books...</p>
+  </div>
+
+  <div class="error" *ngIf="(errorMessage$ | async) && !(isLoading$ | async)">
+    <p>{{ errorMessage$ | async }}</p>
+  </div>
+
+  <div class="books-grid" *ngIf="!(isLoading$ | async) && !(errorMessage$ | async)">
+    <app-item-card *ngFor="let book of books$ | async" [book]="book"></app-item-card>
+  </div>
+
+  <div class="no-results" *ngIf="!(isLoading$ | async) && (books$ | async)?.length === 0 && !(errorMessage$ | async)">
+    <p>No books found. Try a different search term.</p>
+  </div>
+</div>

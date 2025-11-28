@@ -1,51 +1,41 @@
 import { Component, OnInit } from '@angular/core';
-
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ItemsService } from '../../services/items';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { ItemCard } from '../item-card/item-card';
 import { Book } from '../../models/book.model';
+import * as ItemsActions from '../../items/state/items.actions';
+import * as ItemsSelectors from '../../items/state/items.selectors';
 
 @Component({
   selector: 'app-items-list',
   standalone: true,
-  imports: [FormsModule, ItemCard],
+  imports: [CommonModule, FormsModule, ItemCard],
   templateUrl: './items-list.html',
   styleUrl: './items-list.css'
 })
-export class ItemsList implements OnInit {
-  books: Book[] = [];
+export class ItemsListComponent implements OnInit {
+  books$: Observable<Book[]>;
+  isLoading$: Observable<boolean>;
+  errorMessage$: Observable<string | null>;
   searchQuery: string = '';
-  isLoading: boolean = false;
-  errorMessage: string = '';
 
   constructor(
-    private itemsService: ItemsService,
+    private store: Store,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+    this.books$ = this.store.select(ItemsSelectors.selectAllItems);
+    this.isLoading$ = this.store.select(ItemsSelectors.selectListLoading);
+    this.errorMessage$ = this.store.select(ItemsSelectors.selectListError);
+  }
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
       this.searchQuery = params['q'] || '';
-      this.loadBooks();
-    });
-  }
-
-  loadBooks(): void {
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    this.itemsService.getItems(this.searchQuery).subscribe({
-      next: (data) => {
-        this.books = data;
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.errorMessage = 'Failed to load books. Please try again.';
-        this.isLoading = false;
-        console.error(error);
-      }
+      this.store.dispatch(ItemsActions.loadItems({ query: this.searchQuery }));
     });
   }
 

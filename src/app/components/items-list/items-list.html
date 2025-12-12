@@ -5,27 +5,65 @@
       <input 
         type="text" 
         [(ngModel)]="searchQuery" 
-        (keyup.enter)="onSearch()"
+        (input)="onSearchInput()"
         placeholder="Search for books..."
         class="search-input">
-      <button (click)="onSearch()" class="search-button">Search</button>
+    </div>
+    
+    <div class="controls">
+      <div class="items-per-page">
+        <label>Items per page:</label>
+        <select [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange(itemsPerPage)">
+          <option [value]="5">5</option>
+          <option [value]="10">10</option>
+          <option [value]="20">20</option>
+          <option [value]="40">40</option>
+        </select>
+      </div>
     </div>
   </div>
 
-  <div class="loading" *ngIf="isLoading$ | async">
-    <div class="spinner"></div>
-    <p>Loading books...</p>
-  </div>
+  @if (isLoading$ | async) {
+    <div class="loading">
+      <div class="spinner"></div>
+      <p>Loading books...</p>
+    </div>
+  }
 
-  <div class="error" *ngIf="(errorMessage$ | async) && !(isLoading$ | async)">
-    <p>{{ errorMessage$ | async }}</p>
-  </div>
+  @if ((errorMessage$ | async) && !(isLoading$ | async)) {
+    <div class="error">
+      <p>{{ errorMessage$ | async }}</p>
+    </div>
+  }
 
-  <div class="books-grid" *ngIf="!(isLoading$ | async) && !(errorMessage$ | async)">
-    <app-item-card *ngFor="let book of books$ | async" [book]="book"></app-item-card>
-  </div>
+  @if (!(isLoading$ | async) && !(errorMessage$ | async)) {
+    <div class="books-grid">
+      @for (book of books$ | async; track book.id) {
+        <app-item-card [book]="book"></app-item-card>
+      }
+    </div>
+  }
 
-  <div class="no-results" *ngIf="!(isLoading$ | async) && (books$ | async)?.length === 0 && !(errorMessage$ | async)">
-    <p>No books found. Try a different search term.</p>
-  </div>
+  @if (!(isLoading$ | async) && (books$ | async)?.length! > 0) {
+    <div class="pagination">
+      <button 
+        (click)="previousPage()" 
+        [disabled]="currentPage === 0"
+        class="pagination-btn">
+        ← Previous
+      </button>
+      <span class="page-info">Page {{ currentPage + 1 }}</span>
+      <button 
+        (click)="nextPage()" 
+        class="pagination-btn">
+        Next →
+      </button>
+    </div>
+  }
+
+  @if (!(isLoading$ | async) && (books$ | async)?.length === 0 && !(errorMessage$ | async)) {
+    <div class="no-results">
+      <p>No books found. Try a different search term.</p>
+    </div>
+  }
 </div>

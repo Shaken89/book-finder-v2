@@ -12,8 +12,8 @@ export class ItemsEffects {
   loadItems$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ItemsActions.loadItems),
-      switchMap(({ query }) =>
-        this.itemsService.getItems(query).pipe(
+      switchMap(({ query, page, limit }) =>
+        this.itemsService.getItems(query, page || 0, limit || 10).pipe(
           map(items => ItemsActions.loadItemsSuccess({ items })),
           catchError(error =>
             of(ItemsActions.loadItemsFailure({ error: error.message || 'Failed to load items' }))

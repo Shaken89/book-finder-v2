@@ -3,7 +3,7 @@ import { Book } from '../../models/book.model';
 
 export const loadItems = createAction(
   '[Items] Load Items',
-  props<{ query?: string }>()
+  props<{ query?: string; page?: number; limit?: number }>()
 );
 
 export const loadItemsSuccess = createAction(

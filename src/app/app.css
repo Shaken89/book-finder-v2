@@ -3,3 +3,51 @@
   min-height: 100vh;
   background-color: #f5f5f5;
 }
+
+.offline-banner,
+.online-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  padding: 1rem;
+  text-align: center;
+  font-weight: 600;
+  z-index: 1000;
+  animation: slideDown 0.3s ease-out;
+}
+
+.offline-banner {
+  background-color: #ff9800;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.online-banner {
+  background-color: #4caf50;
+  color: white;
+}
+
+.offline-link {
+  color: white;
+  text-decoration: underline;
+  font-weight: normal;
+}
+
+.offline-link:hover {
+  text-decoration: none;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

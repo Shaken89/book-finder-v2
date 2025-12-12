@@ -6,6 +6,8 @@ import { ItemDetailsComponent } from './components/item-details/item-details';
 import { LoginComponent } from './components/login/login';
 import { SignupComponent } from './components/signup/signup';
 import { ProfileComponent } from './components/profile/profile';
+import { FavoritesComponent } from './components/favorites/favorites';
+import { OfflineComponent } from './components/offline/offline';
 import { authGuard } from './guards/auth-guard';
 
 export const routes: Routes = [
@@ -13,8 +15,10 @@ export const routes: Routes = [
   { path: 'about', component: About },
   { path: 'items', component: ItemsListComponent },
   { path: 'items/:id', component: ItemDetailsComponent },
+  { path: 'favorites', component: FavoritesComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
+  { path: 'offline', component: OfflineComponent },
   { path: '**', redirectTo: '' }
 ];

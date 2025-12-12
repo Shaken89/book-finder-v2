@@ -2,32 +2,75 @@
   <div class="profile-card">
     <h1 class="profile-title">Profile</h1>
     
-    <div class="profile-info" *ngIf="user">
-      <div class="info-row">
-        <span class="info-label">Email:</span>
-        <span class="info-value">{{ user.email }}</span>
+    @if (user) {
+      <div class="profile-picture-section">
+        <div class="picture-display">
+          <img 
+            [src]="profilePictureDataUrl || 'data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22150%22 height=%22150%22%3E%3Crect width=%22150%22 height=%22150%22 fill=%22%23ddd%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22Arial%22 font-size=%2216%22 fill=%22%23999%22%3ENo Photo%3C/text%3E%3C/svg%3E'" 
+            alt="Profile Picture"
+            class="profile-picture">
+        </div>
+        
+        <div class="picture-upload">
+          <label for="file-upload" class="upload-label">
+            {{ profilePictureDataUrl ? 'Change' : 'Upload' }} Profile Picture
+          </label>
+          <input 
+            id="file-upload" 
+            type="file" 
+            accept="image/jpeg,image/jpg,image/png"
+            (change)="onFileSelected($event)"
+            class="file-input">
+          
+          @if (isUploading) {
+            <div class="upload-status uploading">
+              Compressing and saving...
+            </div>
+          }
+          
+          @if (uploadSuccess) {
+            <div class="upload-status success">
+              ✓ Profile picture saved!
+            </div>
+          }
+          
+          @if (uploadError) {
+            <div class="upload-status error">
+              {{ uploadError }}
+            </div>
+          }
+          
+          <p class="upload-hint">JPG/PNG (max 5MB)</p>
+        </div>
       </div>
       
-      <div class="info-row">
-        <span class="info-label">User ID:</span>
-        <span class="info-value">{{ user.uid }}</span>
+      <div class="profile-info">
+        <div class="info-row">
+          <span class="info-label">Email:</span>
+          <span class="info-value">{{ user.email }}</span>
+        </div>
+        
+        <div class="info-row">
+          <span class="info-label">User ID:</span>
+          <span class="info-value">{{ user.uid }}</span>
+        </div>
+        
+        <div class="info-row">
+          <span class="info-label">Email Verified:</span>
+          <span class="info-value">{{ user.emailVerified ? 'Yes' : 'No' }}</span>
+        </div>
+        
+        <div class="info-row">
+          <span class="info-label">Account Created:</span>
+          <span class="info-value">{{ user.metadata.creationTime }}</span>
+        </div>
+        
+        <div class="info-row">
+          <span class="info-label">Last Sign In:</span>
+          <span class="info-value">{{ user.metadata.lastSignInTime }}</span>
+        </div>
       </div>
-      
-      <div class="info-row">
-        <span class="info-label">Email Verified:</span>
-        <span class="info-value">{{ user.emailVerified ? 'Yes' : 'No' }}</span>
-      </div>
-      
-      <div class="info-row">
-        <span class="info-label">Account Created:</span>
-        <span class="info-value">{{ user.metadata.creationTime }}</span>
-      </div>
-      
-      <div class="info-row">
-        <span class="info-label">Last Sign In:</span>
-        <span class="info-value">{{ user.metadata.lastSignInTime }}</span>
-      </div>
-    </div>
+    }
 
     <button class="logout-button" (click)="onLogout()">
       Logout

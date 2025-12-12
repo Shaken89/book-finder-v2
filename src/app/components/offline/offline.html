@@ -1,0 +1,17 @@
+<div class="offline-container">
+  <div class="offline-content">
+    <div class="offline-icon">📡</div>
+    <h1>You're Offline</h1>
+    <p class="offline-message">
+      It looks like you've lost your internet connection. 
+      Please check your network settings and try again.
+    </p>
+    <p class="offline-hint">
+      Some previously viewed content may still be available from cache.
+    </p>
+    <button (click)="reload()" class="retry-button">
+      Retry Connection
+    </button>
+    <a routerLink="/" class="home-link">Go to Home Page</a>
+  </div>
+</div>

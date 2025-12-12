@@ -1,0 +1,35 @@
+<div class="favorites-container">
+  <h1>My Favorites</h1>
+
+  @if (isLoading) {
+    <div class="loading">
+      <p>Loading your favorites...</p>
+    </div>
+  }
+
+  @if (!isLoading && errorMessage) {
+    <div class="error">
+      <p>{{ errorMessage }}</p>
+    </div>
+  }
+
+  @if (!isLoading && favoriteBooks.length === 0 && !errorMessage) {
+    <div class="empty">
+      <p>You don't have any favorite books yet.</p>
+      <button (click)="router.navigate(['/items'])" class="browse-btn">Browse Books</button>
+    </div>
+  }
+
+  @if (!isLoading && favoriteBooks.length > 0) {
+    <div class="favorites-grid">
+      @for (book of favoriteBooks; track book.id) {
+        <div class="favorite-item">
+          <app-item-card [book]="book"></app-item-card>
+          <button (click)="onRemoveFavorite(book.id)" class="remove-btn">
+            Remove from Favorites
+          </button>
+        </div>
+      }
+    </div>
+  }
+</div>

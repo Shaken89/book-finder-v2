@@ -34,13 +34,34 @@ export class SignupComponent {
       return;
     }
 
+    // Email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      this.errorMessage = 'Please enter a valid email address';
+      return;
+    }
+
     if (password !== confirmPassword) {
       this.errorMessage = 'Passwords do not match';
       return;
     }
 
-    if (password.length < 6) {
-      this.errorMessage = 'Password must be at least 6 characters';
+    // Password complexity validation: 8+ chars, one special, one number
+    if (password.length < 8) {
+      this.errorMessage = 'Password must be at least 8 characters';
+      return;
+    }
+
+    const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+    const hasNumber = /\d/.test(password);
+
+    if (!hasSpecialChar) {
+      this.errorMessage = 'Password must contain at least one special character';
+      return;
+    }
+
+    if (!hasNumber) {
+      this.errorMessage = 'Password must contain at least one number';
       return;
     }
 

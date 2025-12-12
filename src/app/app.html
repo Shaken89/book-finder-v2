@@ -1,2 +1,15 @@
+@if (showOfflineMessage && !isOnline) {
+  <div class="offline-banner">
+    <span>⚠️ You are currently offline. Some features may not be available.</span>
+    <a routerLink="/offline" class="offline-link">Learn More</a>
+  </div>
+}
+
+@if (showOfflineMessage && isOnline) {
+  <div class="online-banner">
+    <span>✓ You are back online!</span>
+  </div>
+}
+
 <app-navbar></app-navbar>
 <router-outlet></router-outlet>

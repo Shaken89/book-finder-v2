@@ -11,14 +11,17 @@ export class ItemsService {
 
   constructor(private http: HttpClient) {}
 
-  getItems(query?: string, page: number = 0): Observable<Book[]> {
+  getItems(query?: string, page: number = 0, maxResults: number = 10): Observable<Book[]> {
     const searchQuery = query || 'fiction';
-    const startIndex = page * 10;
-    const url = `${this.apiUrl}?q=${searchQuery}&startIndex=${startIndex}&maxResults=10`;
+    const startIndex = page * maxResults;
+    const url = `${this.apiUrl}?q=${searchQuery}&startIndex=${startIndex}&maxResults=${maxResults}`;
     
     return this.http.get<BooksResponse>(url).pipe(
       map(response => response.items || []),
-      catchError(() => of([]))
+      catchError(error => {
+        console.error('Error fetching items:', error);
+        return of([]);
+      })
     );
   }
 

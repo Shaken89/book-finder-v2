@@ -1,4 +1,11 @@
 <div class="card">
+  <button 
+    class="favorite-btn" 
+    [class.active]="(isFavorite$ | async)"
+    (click)="toggleFavorite($event)"
+    title="{{ (isFavorite$ | async) ? 'Remove from favorites' : 'Add to favorites' }}">
+    {{ (isFavorite$ | async) ? '★' : '☆' }}
+  </button>
   <div class="card-image">
     <img [src]="getImageUrl()" [alt]="book.volumeInfo.title">
   </div>
